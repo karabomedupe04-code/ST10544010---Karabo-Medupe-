@@ -11,75 +11,43 @@ package com.mycompany.chatappregistation;
 public class login {
     
 public boolean checkUsername(String username) {
+    System.out.println("Username successfully captured.");
     return username.contains("_") && username.length() <=5;
 }
 
 //Password Validation
 public boolean checkPasswordComplexity(String password) {
-    
-        boolean hasCapital = false;
-        boolean hasSmall = false;
-        boolean hasNumber = false;
-        boolean hasSpecial = false;
+    System.out.println("Password successfully captured.");
+    return password.length() >=8 
+            && password.matches(".*[A-Z].*") 
+            && password.matches(".*[0-9].*") 
+            && password.matches(".*[#?!@$%^&*-].*");
 
-        for (int i = 0; i < password.length(); i++) {
-            char character = password.charAt(i);
-
-            if (Character.isUpperCase(character)) {
-                hasCapital = true;
-            } else if (Character.isLowerCase(character)) {
-                hasSmall = true;
-            } else if (Character.isDigit(character)) {
-                hasNumber = true;
-            } else if (!Character.isLetterOrDigit(character)) {
-                hasSpecial = true;
-            }
-        }
-
-        return password.length() >= 8 && hasCapital
-                && hasSmall && hasNumber && hasSpecial;
     }
 
 //Cellphone Number Validation
-public boolean checkCellphoneNumber(String cellphone) {
-        if (!cellphone.startsWith("+27") && cellphone.length() !=12) {
-            return false;
-        }
-
-        for (int i = 3; i < cellphone.length(); i++) {
-            char character = cellphone.charAt(i);
-
-            if (!Character.isDigit(character)) {
-                return false;
-            }
-        }
-
-        return true;
+public boolean checkCellphoneNumber(String cellphoneNumber) {
+    System.out.println("Cell phone number successfully added.");
+    return cellphoneNumber.matches("^(\\+27|27)\\d{12}$");
     }
 
 
 //Registered User
-String registeredUser(String username , String password, String cellphone){
+public String registeredUser(String username , String password, String cellphoneNumber){
     
-   if (checkUsername(username)) {
-        System.out.println("Username succesfully captured.");
-     } else {
-        System.out.println("Username is not correctly formatted; please ensure that your username contains an underscore and is no more than 5 characters in length.");
-     }
-   
-    if (checkCellphoneNumber(cellphone)) {
-        System.out.println("Cellphone number successfully added.");
-    } else {
-        System.out.println("Cellphone number incorrectly formatted or does not contain an international code.");
+   if (!checkUsername(username)) {
+       return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than 5 characters in length.";
     }
 
-    if (checkPasswordComplexity(password)) {
-    System.out.println("Password successfully entered.");
-} else {
-    System.out.println("Password entered incorrectly; please ensure that your password that is at least eight characters long, contains a capital leter, a number, and a special character.");
-}
+    if (!checkPasswordComplexity(password)) {
+        return "Password entered incorrectly; please ensure that your password that is at least eight characters long, contains a capital leter, a number, and a special character.";
+    }
+    
+    if (!checkCellphoneNumber(cellphoneNumber)) {
+        return "Cellphone number incorrectly formatted or does not contain an international code.";
+    }
         
-    if(!checkUsername(username) && checkPasswordComplexity(password) && checkCellphoneNumber(cellphone)){
+    if(!checkUsername(username) && checkPasswordComplexity(password) && checkCellphoneNumber(cellphoneNumber)){
         return "failed to register";
     }
     return "User successfully registered";
@@ -95,13 +63,15 @@ public boolean loginUser(String registeredUser, String registeredPassword, Strin
     //loginStatus
     public String returnLoginStatus(String firstName,  String lastName ,String registeredUser, String registeredPassword, String loginUsername, String loginPassword) {
         if (loginUser(registeredUser, registeredPassword, loginUsername, loginPassword)) {
-            return "Welcome " + firstName + " " + lastName + ", it is great to see you again: ";
+            return "Welcome " + firstName + " " + lastName + ", it is great to see you again.";
         } else {
             return "Username or password incorrect, please try again.";
         }
             
     }
 }
+
+
 
     
     
